@@ -1,9 +1,8 @@
 #!/bin/bash
 
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install phpmyadmin
-
+#sudo apt-get update
+#sudo apt-get upgrade
+#sudo apt-get install phpmyadmin
 
 PMAVERSION=$(grep PMAVERSION .env | cut -d '=' -f 2-)
 
@@ -36,4 +35,3 @@ mkdir tmp
 chown -R www-data:www-data tmp
 
 echo "Profit!!!"
-
