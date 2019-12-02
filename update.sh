@@ -39,7 +39,7 @@ while true
 
 PMALINK="$PMADOMAIN/$PMAVERSION/phpMyAdmin-$PMAVERSION-all-languages.zip"
 
-cd /usr/share || exit
+cd $PMALOCATION || exit
 rm -rf phpmyadmin
 echo 'Remove folder phpmyadmin'
 
@@ -56,11 +56,6 @@ rm -rf phpMyAdmin-$PMAVERSION-all-languages.zip
 
 echo "Config & blowfish_secret";
 cd phpmyadmin || exit
-cp config.sample.inc.php config.inc.php
-PMABLOWFISH=`head -c 512 /dev/urandom | md5sum | awk '{print $1}'`
-sed -i -- 's/\['\''blowfish_secret'\''\] = '\'''\''/\['\''blowfish_secret'\''\] = '\'''$PMABLOWFISH''\''/' config.inc.php
-
-mkdir tmp
-chown -R www-data:www-data tmp
-
+sed -i -r "s/('TEMP_DIR'\s*,)[^\)]*/\1 '\/var\/lib\/phpmyadmin\/tmp\/'/" libraries/vendor_config.php
+sed -i -r "s/('CONFIG_DIR'\s*,)[^\)]*/\1 '\/etc\/phpmyadmin\/'/" libraries/vendor_config.php
 echo "Profit!!!"
