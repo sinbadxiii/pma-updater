@@ -1,5 +1,9 @@
 # phpMyAdmin Updater
-Script for automatically installing/updating the latest phpMyAdmin version.
+Script for automatically updating the latest phpMyAdmin version.
+
+## Requirements
+- wget
+- unzip
 
 ### This Bash script will do the following.
 
@@ -13,13 +17,15 @@ Script for automatically installing/updating the latest phpMyAdmin version.
 ### Installing
 To use it, simply drop the following commands in your terminal.
 
-`git clone https://github.com/sinbadxiii/pma-updater && (cd pmaupdater && ./pmaupdater)`
+`git clone https://github.com/sinbadxiii/pma-updater && cd pma-updater`
 
-##### Make sure you don't have already a file or folder with the name `pmaupdater.zip` or `pmaupdater` as it will be overwritten!
 
-You can rename the `pmaupdater` folder, to whatever name you want to use when accessing it from your web server.
+### Usage
+
+run to update to the latest stable version `sudo ./update.sh`
+
+run with the `-r` key to install another version `sudo ./update.sh -r 4.9.1`
 
 ### Updating
-Once you have downloaded `pmaupdater`, you can update the phpMyAdmin version by going to the `pmaupdater` folder and running the script
+Once you have downloaded `pma-updater`, you can update the phpMyAdmin version by going to the `pma-updater` folder and running the script
 
-`./pmaupdater`

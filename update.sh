@@ -1,20 +1,49 @@
 #!/bin/bash
 
-#sudo apt-get update
-#sudo apt-get upgrade
-#sudo apt-get install phpmyadmin
+##
+# PHPMYADMIN UPDATE SCRIPT
+# https://github.com/sinbadxiii/pma-updater/
+# Author: Sergey Mukhin
+# Email: sinbadxiii@gmail.com
+##
+
+if [ ! -f .env ]; then
+    cp .example.env .env
+fi
+
+# Output help
+usage() {
+    echo "usage: sudo ./update.sh [-h] [-r version]";
+    echo "-h            this help";
+    echo "-r version    choose a different version than the latest.";
+}
 
 PMAVERSION=$(grep PMAVERSION .env | cut -d '=' -f 2-)
+PMALOCATION=$(grep PMALOCATION .env | cut -d '=' -f 2-)
+PMADOMAIN=$(grep PMADOMAIN .env | cut -d '=' -f 2-)
 
-cd /usr/share
-echo 'go to' $PWD
-EXIT
+while true
+  do
+      case "$1" in
+          -r) PMAVERSION="$2"; shift;;
+          -h|--help)
+              usage
+              exit;;
+          --)
+              shift
+              break;;
+      esac
+      shift
+      break
+  done
+
+PMALINK="$PMADOMAIN/$PMAVERSION/phpMyAdmin-$PMAVERSION-all-languages.zip"
+
+cd /usr/share || exit
 rm -rf phpmyadmin
-echo 'remove folder phpmyadmin'
+echo 'Remove folder phpmyadmin'
 
-PMALINK="https://files.phpmyadmin.net/phpMyAdmin/$PMAVERSION/phpMyAdmin-$PMAVERSION-all-languages.zip"
-
-wget -P /usr/share/ $PMALINK
+wget -P $PMALOCATION $PMALINK
 
 echo "Extract files";
 sleep 1
@@ -26,7 +55,7 @@ rm -rf phpMyAdmin-$PMAVERSION-all-languages
 rm -rf phpMyAdmin-$PMAVERSION-all-languages.zip
 
 echo "Config & blowfish_secret";
-cd phpmyadmin
+cd phpmyadmin || exit
 cp config.sample.inc.php config.inc.php
 PMABLOWFISH=`head -c 512 /dev/urandom | md5sum | awk '{print $1}'`
 sed -i -- 's/\['\''blowfish_secret'\''\] = '\'''\''/\['\''blowfish_secret'\''\] = '\'''$PMABLOWFISH''\''/' config.inc.php
