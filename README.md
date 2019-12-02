@@ -10,8 +10,8 @@ Script for automatically updating the latest phpMyAdmin version.
 * Remove any old phpMyAdmin files from '/usr/share/phpmyadmin' if there are any.
 * Download the latest version of phpMyAdmin from phpMyAdmin site.
 * Extract the downloaded `.zip` file in the current folder.
-* Copy `config.sample.inc.php` to `config.inc.php`.
-* Automatically update the `'blowfish_secret'` in `config.inc.php` using an `md5sum` of 512 bytes received from `/dev/urandom`.
+* change 'TEMP_DIR' - '/var/lib/phpmyadmin/tmp/' in libraries/vendor_config.php
+         'CONFIG_DIR' - '/etc/phpmyadmin/' in libraries/vendor_config.php
 * Clean up by removing the downloaded `.zip` file
 
 ### Installing
